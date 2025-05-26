@@ -16,8 +16,8 @@ async function auth_complete() {
   if (lightdm.is_authenticated) {
     lightdm.start_session(lightdm.sessions[0].key);
   } else {
-    document.getElementById("greeter-output").innerText = "auth failed ☹";
-    await _sleep(1000);
+    document.getElementById("greeter-output").innerHTML =
+      "auth failed ☹<br>try again";
     start_auth();
   }
 }
@@ -25,12 +25,21 @@ async function auth_complete() {
 function password_submitted(event) {
   event.preventDefault();
   const submitForm = document.getElementById("password-form");
+  const promptOutput = document.getElementById("prompt");
+  promptOutput.innerText = "attempting...";
+
   lightdm.respond(submitForm.password.value);
 }
 
 function show_message(text, type) {
   const messageOutput = document.getElementById("greeter-output");
-  messageOutput.innerHTML = `${messageOutput.innerHTML}${text}`;
+  messageOutput.innerHTML = text;
+
+  // kinda a gross hack but whatever
+  if (text === "Failed to match fingerprint") {
+    messageOutput.innerText = "failed to match fingerprint, try again";
+    start_auth();
+  }
 }
 
 function show_prompt(text, type) {
