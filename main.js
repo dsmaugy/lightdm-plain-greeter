@@ -7,7 +7,7 @@ async function _sleep(ms) {
 function start_auth() {
   lightdm.cancel_authentication();
   if (document.getElementById("try-again")) {
-    document.getElementById("greeter-output").remove();
+    document.getElementById("greeter-output").innerHTML = "";
   }
 
   const default_username = lightdm.users[0].username;
