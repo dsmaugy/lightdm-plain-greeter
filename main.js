@@ -6,6 +6,9 @@ async function _sleep(ms) {
 
 function start_auth() {
   lightdm.cancel_authentication();
+  if (document.getElementById("try-again")) {
+    document.getElementById("greeter-output").remove();
+  }
 
   const default_username = lightdm.users[0].username;
   document.getElementById("current-user").innerText = default_username;
@@ -35,10 +38,17 @@ function show_message(text, type) {
   const messageOutput = document.getElementById("greeter-output");
   messageOutput.innerHTML = text;
 
+  // clear prompt command to get ready for future auth attempts
+  const promptOutput = document.getElementById("prompt");
+  promptOutput.innerHTML = "";
+
   // kinda a gross hack but whatever
   if (text === "Failed to match fingerprint") {
     messageOutput.innerText = "failed to match fingerprint, try again";
     start_auth();
+  } else if (text === "Verification timed out") {
+    messageOutput.innerHTML =
+      "auth request timed out<br><button id='try-again' onclick='start_auth()'>try again</button>";
   }
 }
 
