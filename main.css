@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "Quicksand";
+  src: url("resources/Quicksand-VariableFont_wght.ttf");
+}
+
+html {
+  font-family: "Quicksand";
+  font-size: 1.5em;
+  text-align: center;
+  background-color: #ffffff;
+  zoom: 200%;
+}
